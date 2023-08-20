@@ -115,6 +115,10 @@ main {
   background: #84cd1b;
 }
 
+.fruit_black {
+  background: black;
+}
+
 .fruit_carmazin {
   background: #dc143c;
 }
