@@ -26,5 +26,5 @@ o	При нажатии на кнопку «Добавить фрукт» в к�
 
 ## Ссылки
 
-* Проект - [https://olgadzhevello.github.io/php/](https://olgadzhevello.github.io/php/) 
-* Репозиторий - [https://github.com/OlgaDzhevello/php](https://github.com/OlgaDzhevello/php)
+* Проект - [https://olgadzhevello.github.io/task10.11/]( https://olgadzhevello.github.io/task10.11/) 
+* Репозиторий - [https://github.com/OlgaDzhevello/task10.11](https://github.com/OlgaDzhevello/task10.11)
