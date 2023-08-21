@@ -140,3 +140,7 @@ main {
   height: 100%;
   padding: 10px;
 }
+
+.sort__kind, .sort__time {
+  color: #008cba;
+}

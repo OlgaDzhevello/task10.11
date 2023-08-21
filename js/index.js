@@ -19,21 +19,7 @@ let fruitsJSON = `[
 	{"kind": "Дуриан", "color": "зеленый", "weight": 35},
 	{"kind": "Личи", "color": "розово-красный", "weight": 17},
 	{"kind": "Карамбола", "color": "желтый", "weight": 28},
-	{"kind": "Тамаринд", "color": "светло-коричневый", "weight": 22},
-	{"kind": "Мангустин", "color": "фиолетовый", "weight": 23},
-	{"kind": "Дуриан", "color": "зеленый", "weight": 45},
-	{"kind": "Личи", "color": "розово-красный", "weight": 27},
-	{"kind": "Карамбола", "color": "желтый", "weight": 98},
-	{"kind": "Тамаринд", "color": "светло-коричневый", "weight": 32},
-    {"kind": "Мангустин", "color": "фиолетовый", "weight": 13},
-	{"kind": "Дуриан", "color": "зеленый", "weight": 35},
-	{"kind": "Личи", "color": "розово-красный", "weight": 17},
-	{"kind": "Карамбола", "color": "желтый", "weight": 28},
-	{"kind": "Тамаринд", "color": "светло-коричневый", "weight": 22},
-	{"kind": "Мангустин", "color": "фиолетовый", "weight": 23},
-	{"kind": "Дуриан", "color": "зеленый", "weight": 45},
-	{"kind": "Личи", "color": "розово-красный", "weight": 27},
-	{"kind": "Карамбола", "color": "желтый", "weight": 98}
+	{"kind": "Тамаринд", "color": "светло-коричневый", "weight": 22}
 ]`;
 
 // преобразование JSON в объект JavaScript
@@ -144,6 +130,7 @@ let sortTime = '-'; // инициализация состояния време�
 const comparationColor = (a, b) => a.color > b.color ? true : false;
 
 const sortAPI = {
+    // алгоритм пузырьковой сортировки
 	bubbleSort(arr, comparation) {
         const n = arr.length;
         // внешняя итерация по элементам
@@ -161,52 +148,45 @@ const sortAPI = {
         }                    
 	},
 
+    // алгоритм быстрой сортировки
 	quickSort(arr, comparation) {
-        // функция обмена элементов
-        function swap(arr, left, right){
-            const temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
-        }
-        // функция разделитель
-        function partition(arr, left, right) {
-            var pivot = arr[Math.floor((right + left) / 2)],
-                i = left,
-                j = right;
-            while (i <= j) {
-                while (comparation(pivot, arr[i])) {
-                    i++;
-                }
-                while (comparation(arr[j], pivot)) {
-                    j--;
-                }
-                if (i <= j) {
-                    swap(arr, i, j);
-                    i++;
-                    j--;
-                }
-            }
-            return i;
-        }
+ 		// TODO: допишите функцию быстрой сортировки
         
-        // алгоритм быстрой сортировки
-        function quickSort(arr, left, right) {
-            var index;
-            if (arr.length > 1) {
-                left = typeof left != "number" ? 0 : left;
-                right = typeof right != "number" ? arr.length - 1 : right;
-                index = partition(arr, left, right);
-                if (left < index - 1) {
-                    quickSort(arr, left, index - 1);
-                }
-                if (index < right) {
-                    quickSort(arr, index, right);
+        function partition(arr, start, end){
+            // Последний элеиент - pivot
+            const pivotValue = arr[end];
+            let pivotIndex = start; 
+            for (let i = start; i < end; i++) {
+                if (comparation(pivotValue, arr[i])) {
+                // Меняем элементы
+                [arr[i], arr[pivotIndex]] = [arr[pivotIndex], arr[i]];
+                // Сдвигаем индекс
+                pivotIndex++;
                 }
             }
-            return arr;
+            
+            // Помещаем значение pivot в середину
+            [arr[pivotIndex], arr[end]] = [arr[end], arr[pivotIndex]] 
+            return pivotIndex;
+        };
+
+        function quickSortRecursive(arr, start, end) {
+            // Условие завершения
+            if (start >= end) {
+                return;
+            };
+            
+            // Возврат pivotIndex
+            let index = partition(arr, start, end);
+
+            // Рекурсивно примеить к левому и правому подмассивам
+            quickSortRecursive(arr, start, index - 1);
+            quickSortRecursive(arr, index + 1, end);
         }
+        quickSortRecursive(arr, 0, arr.length -1);
 	},
 
+    
 	// выполняет сортировку и производит замер времени
 	startSort(sort, arr, comparation) {
 		const start = new Date().getTime();
@@ -229,10 +209,8 @@ sortChangeButton.addEventListener('click', () => {
 sortActionButton.addEventListener('click', () => {
     sortTimeLabel.textContent = '0 ms';
 	const sort = sortAPI[sortKind];
-    console.log(sort);
 	sortAPI.startSort(sort, fruits, comparationColor);
 	display();
-	// TODO: вывести в sortTimeLabel значение sortTime
     sortTimeLabel.textContent = sortTime;
 });
 
@@ -241,5 +219,16 @@ sortActionButton.addEventListener('click', () => {
 addActionButton.addEventListener('click', () => {
 	// TODO: создание и добавление нового фрукта в массив fruits
 	// необходимые значения берем из kindInput, colorInput, weightInput
+    let kind = kindInput.value;
+    let color = colorInput.value;
+    let weight = parseInt(weightInput.value);
+    let item = {};
+    if ((item.kind = kind) && (item.color = color) && (item.weight = weight) >= 0 ) {
+        fruits.push(item);
+        kindInput.value = colorInput.value = weightInput.value = ''
+    } else {
+        alert(`Проверьте введенные данные`);
+    };
 	display();
 });
+
